@@ -23,6 +23,7 @@ import org.apache.flink.streaming.api.operators.StreamSink;
 import org.apache.flink.streaming.runtime.streamrecord.LatencyMarker;
 import org.apache.flink.streaming.runtime.streamrecord.StreamRecord;
 import org.slf4j.Logger;
+import java.util.Random;
 
 
 /**
@@ -40,6 +41,8 @@ public class DummyLatencyCountingSink<T> extends StreamSink<T> {
 
     private final int sentenceSize;
 
+    private final int id;
+
     public DummyLatencyCountingSink(Logger log, int timestampInterval, int sentenceSize) {
         super(new SinkFunction<T>() {
 
@@ -51,12 +54,15 @@ public class DummyLatencyCountingSink<T> extends StreamSink<T> {
         this.logger = log;
         this.timestampInterval = timestampInterval;
         this.sentenceSize = sentenceSize;
+
+        Random rand = new Random();
+        this.id = rand.nextInt(1000);
     }
 
     @Override
     public void processElement(StreamRecord<T> element) throws Exception {
       long now = System.currentTimeMillis();
-      logger.warn("LATENCY {} {}", element.getValue(), now);
+      logger.warn("LATENCY {} {} {}", this.id, element.getValue(), now);
 
       // Log the throughput.
       elementsSoFar++;
@@ -67,7 +73,7 @@ public class DummyLatencyCountingSink<T> extends StreamSink<T> {
           long recordsSeen = this.elementsSoFar * this.timestampInterval / this.sentenceSize;
           // Throughput in records/s.
           long throughput = recordsSeen * 1000 / (now - startTime);
-          logger.warn("THROUGHPUT {} {} {}", element.getValue(), now, throughput);
+          logger.warn("THROUGHPUT {} {} {} {}", this.id, element.getValue(), now, throughput);
           elementsSoFar = 0;
           startTime = now;
       }

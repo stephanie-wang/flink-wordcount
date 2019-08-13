@@ -65,7 +65,7 @@ public class StatefulWordCount {
         // Duration to run the job in seconds.
         final int duration = params.getInt("duration", 60);
         final int sourceRate = params.getInt("source-rate", 12500);
-        final int numSentences = duration * sourceRate * parallelism;
+        final int numSentences = duration * sourceRate;
         final DataStream<Tuple3<Long, String, Integer>> text = env.addSource(
                 new RateControlledSourceFunction(
                         sourceRate,
