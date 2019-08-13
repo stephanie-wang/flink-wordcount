@@ -33,7 +33,7 @@ if [[ $RESTART_HDFS -eq 1 ]]; then
 fi
 
 # Sync the config with all workers.
-python format_config.py --master-ip $MASTER_IP --num-nodes $NUM_WORKERS
+python $DIR/format_config.py --master-ip $MASTER_IP --num-nodes $NUM_WORKERS
 num_workers=$(( `wc -l ~/workers.txt | awk '{ print $1 }'` - 1 ))
 for worker in `tail -n $num_workers ~/workers.txt`; do
     echo $worker
