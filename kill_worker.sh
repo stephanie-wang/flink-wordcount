@@ -5,7 +5,7 @@ FAIL_TIME=${1:-0}
 
 export HADOOP_CLASSPATH=`/home/ubuntu/hadoop-3.1.2/bin/hadoop classpath`
 # Start a new task manager so it is ready by the time the first one dies.
-~/flink-1.7.2/bin/taskmanager.sh start
+~/flink-1.8.1/bin/taskmanager.sh start
 
 pid=`ps -ef | grep TaskManagerRunner | awk '{ print $2 }' | head -n 1`
 echo "PID is $pid"

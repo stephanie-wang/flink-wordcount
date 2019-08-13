@@ -76,9 +76,10 @@ HADOOP_CLASSPATH=`$HADOOP_DIR/bin/hadoop classpath` $FLINK_DIR/bin/flink run ~/f
 if [[ $TEST_FAILURE -eq 1 ]]
 then
     sleep 5
+    SLEEP=45
     WORKER_TO_KILL=`head -n 1 $FLINK_DIR/conf/slaves`
-    echo "Killing worker $WORKER_TO_KILL..."
-    ssh -i ~/ray_bootstrap_key.pem $WORKER_TO_KILL "$DIR/kill_worker.sh 40" &
+    echo "Killing worker $WORKER_TO_KILL after $SLEEP more seconds..."
+    ssh -i ~/ray_bootstrap_key.pem $WORKER_TO_KILL "$DIR/kill_worker.sh $SLEEP" &
 fi
 
 # Wait for the job to complete.
