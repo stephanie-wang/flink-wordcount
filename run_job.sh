@@ -60,7 +60,7 @@ if [[ $TEST_FAILURE -eq 1 ]]; then
     throughput_prefix=failure-$throughput_prefix$CHECKPOINT_DURATION-checkpoint-
 fi
 
-date=`date +%h-%d-%M-%S`.csv
+date=`date +%h-%d-%H-%M-%S`.csv
 latency_file=$latency_prefix$date
 throughput_file=$throughput_prefix$date
 echo "Logging to file $latency_file..."
